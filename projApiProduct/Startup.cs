@@ -10,7 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using projApiProduct.Repositories;
+using projApiProduct.Utils;
 
 namespace projApiProduct
 {
@@ -27,11 +30,21 @@ namespace projApiProduct
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "projApiProduct", Version = "v1" });
             });
+
+            services.Configure<ProjApiProductDatabaseSettings>(
+                Configuration.GetSection(nameof(ProjApiProductDatabaseSettings)));
+
+            services.AddSingleton<IProjApiProductDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<ProjApiProductDatabaseSettings>>().Value);
+
+            services.AddSingleton<ProductRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

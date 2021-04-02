@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using projApiProduct.Repositories;
+using projApiProduct.Services;
 using projApiProduct.Utils;
 
 namespace projApiProduct
@@ -43,7 +44,7 @@ namespace projApiProduct
             services.AddSingleton<IProjApiProductDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<ProjApiProductDatabaseSettings>>().Value);
 
-            services.AddSingleton<ProductRepository>();
+            services.AddSingleton<ProductService>();
 
         }
 

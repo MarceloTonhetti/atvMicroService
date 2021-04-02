@@ -10,8 +10,6 @@ namespace projApiProduct.Models
         public string Id { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string CompanyProviderId { get; set; }
+        public CompanyProvider CompanyProvider { get; set; }
     }
 }
